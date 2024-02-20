@@ -1,5 +1,6 @@
 package com.ehgol.demo.services;
 
+import com.ehgol.demo.dto.JogoCreateDto;
 import com.ehgol.demo.entities.Jogo;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface JogoService {
 
     Optional<Jogo> getJogoById(Long id);
 
-    Jogo saveJogo(Jogo jogo);
+    Jogo saveJogoDto(JogoCreateDto jogoCreateDto);
 
     Jogo updateJogo(Long id, Jogo jogoAtualizado);
 

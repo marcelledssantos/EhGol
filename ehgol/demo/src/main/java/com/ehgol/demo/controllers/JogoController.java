@@ -1,6 +1,7 @@
 package com.ehgol.demo.controllers;
 
 
+import com.ehgol.demo.dto.JogoCreateDto;
 import com.ehgol.demo.entities.Jogo;
 import com.ehgol.demo.services.JogoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class JogoController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveJogo(@RequestBody Jogo jogo) {
+    public ResponseEntity<String> saveJogo(@RequestBody JogoCreateDto jogoCreateDto) {
         try {
-            jogoService.saveJogo(jogo);
+            jogoService.saveJogoDto(jogoCreateDto);
             return ResponseEntity.ok("Partida cadastrada!");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Erro ao salvar partida");
