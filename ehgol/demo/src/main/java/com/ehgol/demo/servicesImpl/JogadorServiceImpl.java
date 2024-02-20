@@ -1,6 +1,9 @@
 package com.ehgol.demo.servicesImpl;
 
+import com.ehgol.demo.dto.JogadorCreateDto;
+import com.ehgol.demo.dto.JogadorResponseDto;
 import com.ehgol.demo.entities.Jogador;
+import com.ehgol.demo.mapper.JogadorMapper;
 import com.ehgol.demo.repositories.JogadorRepository;
 import com.ehgol.demo.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,10 @@ public class JogadorServiceImpl implements JogadorService {
         return jogadorRepository.findById(id).orElse(null);
     }
 
-    @Override
+
     @Transactional
-    public Jogador saveJogador(Jogador jogador) {
-        return jogadorRepository.save(jogador);
+    public Jogador saveJogadorDto(JogadorCreateDto jogadorCreateDto) {
+        return jogadorRepository.save(JogadorMapper.toJogador(jogadorCreateDto));
     }
 
     @Override

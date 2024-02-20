@@ -1,6 +1,9 @@
 package com.ehgol.demo.controllers;
 
+import com.ehgol.demo.dto.JogadorCreateDto;
+import com.ehgol.demo.dto.JogadorResponseDto;
 import com.ehgol.demo.entities.Jogador;
+import com.ehgol.demo.mapper.JogadorMapper;
 import com.ehgol.demo.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,27 +26,22 @@ public class JogadorController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveJogador(@RequestBody Jogador jogador) {
-        try {
-            jogadorService.saveJogador(jogador);
-            return ResponseEntity.ok("Jogador(a) cadastrado(a)");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erro ao salvar jogador(a)");
-        }
+    public ResponseEntity<JogadorResponseDto> create(@RequestBody JogadorCreateDto jogadorCreateDto) {
+        Jogador jogador = JogadorMapper.toJogador(jogadorCreateDto);
+        Jogador jogadorSalvo = jogadorService.saveJogadorDto(jogadorCreateDto);
+        JogadorResponseDto jogadorResponseDto = JogadorMapper.toDto(jogadorSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(jogadorResponseDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Jogador> getById(@PathVariable Long id) {
+    public ResponseEntity<JogadorResponseDto> getById(@PathVariable Long id) {
         Jogador jogador = jogadorService.getJogadorById(id);
 
-        if (jogador != null) {
-            return ResponseEntity.ok(jogador);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(JogadorMapper.toDto(jogador));
+
     }
 
-    @PatchMapping("/atualizar{id}")
+    @PatchMapping("/atualizar/{id}")
     public ResponseEntity<String> updateJogador(@PathVariable Long id, @RequestBody Jogador jogador) {
         try {
             jogadorService.updateJogador(id, jogador);
@@ -56,6 +54,6 @@ public class JogadorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteJogador(@PathVariable Long id) {
         jogadorService.deleteJogador(id);
-        return ResponseEntity.ok("Excluido(a) com sucesso");
+        return ResponseEntity.ok("Jogador(a) excluido(a) com sucesso");
     }
 }

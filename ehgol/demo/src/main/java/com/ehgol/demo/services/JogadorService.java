@@ -1,7 +1,7 @@
 package com.ehgol.demo.services;
 
+import com.ehgol.demo.dto.JogadorCreateDto;
 import com.ehgol.demo.entities.Jogador;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface JogadorService {
 
     Jogador getJogadorById(Long id);
 
-    Jogador saveJogador(Jogador jogador);
+    Jogador saveJogadorDto(JogadorCreateDto jogadorCreateDto);
 
     Jogador updateJogador(Long id, Jogador jogadorAtualizado);
 
